@@ -42,12 +42,12 @@ The type for input sources. For <code class="code"><span class="keywordsign">`</
 Returns a new input abstraction reading from the given source.<br>
 </div>
 
-<pre><span id="VALeval"><span class="keyword">val</span> eval</span> : <code class="type"><a href="Decompress_inflate.S.html#TYPEt">t</a> -> [ `Error | `Flush | `Ok ]</code></pre><div class="info ">
+<pre><span id="VALeval"><span class="keyword">val</span> eval</span> : <code class="type"><a href="Decompress_inflate.S.html#TYPEt">t</a> -> [ `Error | `Flush of int | `Ok of int ]</code></pre><div class="info ">
 <code class="code">eval inflater</code> performs <code class="code">inflater</code>. The value os <code class="code">eval inflater</code> is:
         <ul>
 <li><code class="code"><span class="keywordsign">`</span><span class="constructor">Ok</span></code> complete the document</li>
-<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Flush</span></code> wait to flush the <code class="code">dst</code> for re-writing a news values in
-           <code class="code">dst</code></li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Flush</span> n</code> wait to flush the <code class="code">dst</code> for re-writing a news values in
+           <code class="code">dst</code>; <code class="code">n</code> bytes were read from the source </li>
 <li><code class="code"><span class="keywordsign">`</span><span class="constructor">Error</span></code> a very bad state</li>
 </ul>
 <br>
