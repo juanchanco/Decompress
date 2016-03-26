@@ -23,11 +23,11 @@
 </div>
 <h1>Module <a href="type_Decompress_inflate.html">Decompress_inflate</a></h1>
 
-<pre><span class="keyword">module</span> Decompress_inflate: <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_inflate.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-Inflate module.<br>
-</div>
-<hr width="100%">
+<pre><span class="keyword">module</span> Decompress_inflate: <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_inflate.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
 
+<pre><span class="keyword">module type</span> <a href="Decompress_inflate.INPUT.html">INPUT</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_inflate.INPUT.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
+<pre><span class="keyword">module type</span> <a href="Decompress_inflate.OUTPUT.html">OUTPUT</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_inflate.OUTPUT.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
 <pre><span class="keyword">module type</span> <a href="Decompress_inflate.S.html">S</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_inflate.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
-<pre><span class="keyword">module</span> <a href="Decompress_inflate.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">X</span></code><code class="code"> : </code><code class="type"><a href="Decompress_common.Bytes.html">Decompress_common.Bytes</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Decompress_inflate.S.html">S</a></code><code class="type"> 
-  with type dst = X.t</code></div></pre></body></html>
+<pre><span class="keyword">module</span> <a href="Decompress_inflate.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">I</span></code><code class="code"> : </code><code class="type"><a href="Decompress_inflate.INPUT.html">INPUT</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">O</span></code><code class="code"> : </code><code class="type"><a href="Decompress_inflate.OUTPUT.html">OUTPUT</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Decompress_inflate.S.html">S</a></code><code class="type"> 
+  with type dst = O.t
+   and type src = I.t</code></div></div></pre></body></html>

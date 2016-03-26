@@ -14,16 +14,25 @@
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;src&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Channel</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">Pervasives</span>.in_channel<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Manual</span>&nbsp;<span class="keyword">of</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">String</span>.t&nbsp;*&nbsp;bool<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">String</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;<span class="constructor">String</span>.t&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;src<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;dst<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mode<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dynamic&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;static&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flat&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;?window_bits:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.src&nbsp;]&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?mode:<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.src&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.dst&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flush</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;]<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flush</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Wait</span>&nbsp;]<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;contents&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flush&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flush&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;refill&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;compress&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?window_bits:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.src&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.dst&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.src&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool&nbsp;*&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.dst&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
 <span class="keyword">end</span></code></body></html>
