@@ -17,12 +17,9 @@
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;src<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;dst<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mode<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dynamic&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;static&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flat&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;?window_bits:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?mode:<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.mode&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?level:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.src&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.dst&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;<span class="constructor">Decompress_deflate</span>.<span class="constructor">S</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flush</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Wait</span>&nbsp;]<br>

@@ -34,10 +34,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;src&nbsp;=&nbsp;<span class="constructor">I</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;dst&nbsp;=&nbsp;<span class="constructor">O</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dynamic&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;mode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;static&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;mode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flat&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;mode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;?window_bits:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?mode:mode&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;src&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;dst&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;make&nbsp;:&nbsp;?window_bits:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;?level:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;src&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;dst&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;eval&nbsp;:&nbsp;t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[&nbsp;<span class="keywordsign">`</span><span class="constructor">Error</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Flush</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Ok</span>&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Wait</span>&nbsp;]<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;contents&nbsp;:&nbsp;t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;flush&nbsp;:&nbsp;t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
