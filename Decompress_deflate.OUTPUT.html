@@ -23,10 +23,6 @@
 
 <pre><span class="keyword">module type</span> OUTPUT = <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_deflate.OUTPUT.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
 
-<pre><span class="keyword">module</span> <a href="Decompress_deflate.OUTPUT.Atom.html">Atom</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Decompress_deflate.OUTPUT.Atom.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
-<pre><span id="TYPEelt"><span class="keyword">type</span> <code class="type"></code>elt</span> = <code class="type"><a href="Decompress_deflate.OUTPUT.Atom.html#TYPEt">Atom.t</a></code> </pre>
-
-
 <pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
 
 
@@ -36,8 +32,8 @@
 <pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">int -> <a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a></code></pre>
 <pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int</code></pre>
 <pre><span id="VALblit"><span class="keyword">val</span> blit</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -><br>       int -> <a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> int -> unit</code></pre>
-<pre><span id="VALset"><span class="keyword">val</span> set</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> <a href="Decompress_deflate.OUTPUT.html#TYPEelt">elt</a> -> unit</code></pre>
-<pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> <a href="Decompress_deflate.OUTPUT.html#TYPEelt">elt</a></code></pre>
+<pre><span id="VALset"><span class="keyword">val</span> set</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> char -> unit</code></pre>
+<pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> char</code></pre>
 <pre><span id="VALget_u16"><span class="keyword">val</span> get_u16</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> int</code></pre>
 <pre><span id="VALget_u64"><span class="keyword">val</span> get_u64</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> int64</code></pre>
 <pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type"><a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a> -> int -> int -> <a href="Decompress_deflate.OUTPUT.html#TYPEt">t</a></code></pre>
