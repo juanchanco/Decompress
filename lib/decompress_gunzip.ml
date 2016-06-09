@@ -54,14 +54,30 @@ struct
   exception Invalid_extrabits
   exception Invalid_distance
   exception Invalid_crc
+  exception Invalid_length
+  exception Invalid_magic_bytes
+  exception Invalid_compression_method
+  exception Unsupported_fhcrc
+  exception Unsupported_fextra
+  exception Unsupported_fname
+  exception Unsupported_fcomment
+
 
   module O = struct type elt = char [@@immmediate] include O end
-  module Adler32 = Decompress_adler32.Make(Char)(O)
-  module Window  = Decompress_window.Make(Char)(O)(Adler32)
+  module Crc32 = Decompress_crc32.Make(Char)(O)
+  module Window  = Decompress_window.Make(Char)(O)(Crc32)
   module Huffman = Decompress_huffman
 
   type dst = O.t
   type src = I.t
+
+  type hdr_flgs = {
+    ftext : bool;
+    fhcrc : bool;
+    fextra : bool;
+    fname : bool;
+    fcomment : bool;
+  }
 
   type t =
     { src                   : src
@@ -78,7 +94,12 @@ struct
     ; mutable inpos         : int
       (** position input buffer *)
     ; mutable available     : int
-    ; mutable k             : t -> [ `Ok | `Flush | `Wait | `Error ] }
+    ; mutable k             : t -> [ `Ok | `Flush | `Wait | `Error ]
+    ; mutable flags         : hdr_flgs
+    ; mutable timestamp     : int
+    ; mutable fname         : string option
+    ; mutable fcomment      : string option
+  }
 
   exception Expected_data
 
@@ -118,6 +139,9 @@ struct
 
       `Wait
     end
+
+  let bytes_to_int b0 b1 b2 b3 =
+      (b3 lsl 24) lor (b2 lsl 16) lor (b1 lsl 8) lor b0
 
   let reset_bits inflater =
     inflater.hold <- 0;
@@ -375,21 +399,23 @@ struct
     else last window inflater
 
   and crc window inflater =
-    let check b a inflater =
-      [%debug Logs.debug @@ fun m -> m "state: crc [%d:%d]" a b];
-
-      if Adler32.neq (Adler32.make a b) (Window.checksum window)
-      then raise Invalid_crc;
-
+    let check b0 b1 b2 b3 b4 b5 b6 b7 inflater =
+      let stream_crc = bytes_to_int b0 b1 b2 b3 and
+      stream_length = bytes_to_int b4 b5 b6 b7 and
+      (computed_crc,computed_length) = Crc32.get (Window.checksum window) in
+      if stream_crc <> computed_crc then raise Invalid_crc;
+      if stream_length <> computed_length then raise Invalid_length;
       ok inflater
     in
-
-    let read_a2b a1a a1b a2a a2b = check ((a1a lsl 8) lor a1b) ((a2a lsl 8) lor a2b) in
-    let read_a2a a1a a1b a2a     = get_byte' (read_a2b a1a a1b a2a) in
-    let read_a1b a1a a1b         = get_byte' (read_a2a a1a a1b) in
-    let read_a1a a1a             = get_byte' (read_a1b a1a) in
-
-    get_byte' read_a1a inflater
+    get_byte'
+      (fun b0 -> get_byte'
+      (fun b1 -> get_byte'
+      (fun b2 -> get_byte'
+      (fun b3 -> get_byte'
+      (fun b4 -> get_byte'
+      (fun b5 -> get_byte'
+      (fun b6 -> get_byte'
+      (fun b7 -> (check b0 b1 b2 b3 b4 b5 b6 b7))))))))) inflater
 
   and flat window inflater =
     let rec loop len inflater =
@@ -561,14 +587,51 @@ struct
        inflater
 
   and header inflater =
-    let aux byte0 byte1 inflater =
+    let magic byte0 byte1 =
       [%debug Logs.debug @@ fun m -> m "state: header [%d:%d]" byte0 byte1];
-
-      let window = Window.init ~bits:(byte0 lsr 4 + 8) () in
+      match byte0, byte1 with
+      | 0x1f,0x8b -> ()
+      | _,_ -> raise Invalid_magic_bytes
+    in
+    let check_method byte =
+      if byte <> 8 then raise Invalid_compression_method
+      else ()
+    in
+    let get_flags byte inflater =
+      let ftext = (1 land byte) > 0
+      and fhcrc =  (2 land byte) > 0
+      and fextra =  (4 land byte) > 0
+      and fname =  (8 land byte) > 0
+      and fcomment =  (16 land byte) > 0
+      in
+        if fhcrc then raise Unsupported_fhcrc;
+        if fextra then raise Unsupported_fextra;
+        if fname then raise Unsupported_fname;
+        if fcomment then raise Unsupported_fcomment;
+        inflater.flags <- { ftext; fhcrc; fextra; fname; fcomment; }
+    in
+    let get_timestamp b0 b1 b2 b3 inflater =
+      inflater.timestamp <- (bytes_to_int b0 b1 b2 b3)
+    in
+    let aux b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 inflater =
+      magic b0 b1;
+      check_method b2;
+      get_flags b3 inflater;
+      get_timestamp b4 b5 b6 b7 inflater;
+      let window = Window.init () in
       last window inflater
     in
-
-    get_byte' (fun byte0 -> get_byte' (fun byte1 -> aux byte0 byte1)) inflater
+    get_byte'
+      (fun b0 -> get_byte'
+      (fun b1 -> get_byte'
+      (fun b2 -> get_byte'
+      (fun b3 -> get_byte'
+      (fun b4 -> get_byte'
+      (fun b5 -> get_byte'
+      (fun b6 -> get_byte'
+      (fun b7 -> get_byte'
+      (fun b8 -> get_byte'
+      (fun b9 -> (aux b0 b1 b2 b3 b4 b5 b6 b7 b8 b9))))))))))) inflater
 
   let make src dst =
     { src
@@ -584,7 +647,18 @@ struct
     ; inpos     = 0
     ; available = 0
 
-    ; k         = header }
+    ; k         = header
+    ; flags     = {
+        ftext = false;
+        fhcrc = false;
+        fextra = false;
+        fname = false;
+        fcomment = false;
+      }
+    ; timestamp = 0
+    ; fname     = None
+    ; fcomment  = None
+    }
 
   let refill off len inflater =
     inflater.inpos <- off;

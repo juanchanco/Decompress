@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: a070ce7c26981dccfcfa2dcbcc9d83e1)
+version = "0.4"
+description = "Inflate and Deflate Zlib"
+requires = "crc stringext"
+archive(byte) = "decompress.cma"
+archive(byte, plugin) = "decompress.cma"
+archive(native) = "decompress.cmxa"
+archive(native, plugin) = "decompress.cmxs"
+exists_if = "decompress.cma"
+# OASIS_STOP
+

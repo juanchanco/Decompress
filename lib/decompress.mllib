@@ -1,0 +1,18 @@
+# OASIS_START
+# DO NOT EDIT (digest: beb5ed1a2d6ef34606b77076689e6818)
+Decompress
+Decompress_common
+Decompress_inflate
+Decompress_deflate
+Decompress_gzip
+Decompress_gunzip
+Decompress_huffman
+Decompress_tree
+Decompress_heap
+Decompress_ringbuffer
+Decompress_lz77
+Decompress_window
+Decompress_adler32
+Decompress_tables
+Decompress_crc32
+# OASIS_STOP

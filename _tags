@@ -1,4 +1,88 @@
 # OASIS_START
+# DO NOT EDIT (digest: cf702c49547456995e47292b649311e0)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library decompress
+"lib/decompress.cmxs": use_decompress
+<lib/decompress.{cma,cmxa}>: oasis_library_decompress_native
+<lib/*.ml{,i,y}>: oasis_library_decompress_native
+<lib/*.ml{,i,y}>: package(crc)
+<lib/*.ml{,i,y}>: package(stringext)
+# Executable ppx_debug
+"ppx/ppx_debug.byte": package(compiler-libs.common)
+<ppx/*.ml{,i,y}>: package(compiler-libs.common)
+# Executable dpipe
+<bin/dpipe/dpipe.{native,byte}>: oasis_executable_dpipe_native
+<bin/dpipe/*.ml{,i,y}>: oasis_executable_dpipe_native
+<bin/dpipe/dpipe.{native,byte}>: package(crc)
+<bin/dpipe/dpipe.{native,byte}>: package(logs)
+<bin/dpipe/dpipe.{native,byte}>: package(logs.fmt)
+<bin/dpipe/dpipe.{native,byte}>: package(stringext)
+<bin/dpipe/dpipe.{native,byte}>: package(unix)
+<bin/dpipe/dpipe.{native,byte}>: use_decompress
+<bin/dpipe/*.ml{,i,y}>: package(crc)
+<bin/dpipe/*.ml{,i,y}>: package(logs)
+<bin/dpipe/*.ml{,i,y}>: package(logs.fmt)
+<bin/dpipe/*.ml{,i,y}>: package(stringext)
+<bin/dpipe/*.ml{,i,y}>: package(unix)
+<bin/dpipe/*.ml{,i,y}>: use_decompress
+# Executable dcpr
+<bin/dcpr/dcpr.{native,byte}>: oasis_executable_dcpr_native
+<bin/dcpr/*.ml{,i,y}>: oasis_executable_dcpr_native
+<bin/dcpr/dcpr.{native,byte}>: package(camlzip)
+<bin/dcpr/dcpr.{native,byte}>: package(cmdliner)
+<bin/dcpr/dcpr.{native,byte}>: package(crc)
+<bin/dcpr/dcpr.{native,byte}>: package(stringext)
+<bin/dcpr/dcpr.{native,byte}>: package(unix)
+<bin/dcpr/dcpr.{native,byte}>: use_decompress
+<bin/dcpr/*.ml{,i,y}>: package(camlzip)
+<bin/dcpr/*.ml{,i,y}>: package(cmdliner)
+<bin/dcpr/*.ml{,i,y}>: package(crc)
+<bin/dcpr/*.ml{,i,y}>: package(stringext)
+<bin/dcpr/*.ml{,i,y}>: package(unix)
+<bin/dcpr/*.ml{,i,y}>: use_decompress
+# Object bindings
+<bindings/*.ml{,i,y}>: package(crc)
+<bindings/*.ml{,i,y}>: package(ctypes.foreign)
+<bindings/*.ml{,i,y}>: package(ctypes.stubs)
+<bindings/*.ml{,i,y}>: package(stringext)
+<bindings/*.ml{,i,y}>: use_decompress
+# Executable generate
+<gen/generate.{native,byte}>: package(crc)
+<gen/generate.{native,byte}>: package(ctypes.foreign)
+<gen/generate.{native,byte}>: package(ctypes.stubs)
+<gen/generate.{native,byte}>: package(stringext)
+<gen/generate.{native,byte}>: use_decompress
+<gen/*.ml{,i,y}>: package(crc)
+<gen/*.ml{,i,y}>: package(ctypes.foreign)
+<gen/*.ml{,i,y}>: package(ctypes.stubs)
+<gen/*.ml{,i,y}>: package(stringext)
+<gen/*.ml{,i,y}>: use_decompress
+# Executable test_decompress
+<lib_test/decompress_test.{native,byte}>: package(alcotest)
+<lib_test/decompress_test.{native,byte}>: package(camlzip)
+<lib_test/decompress_test.{native,byte}>: package(crc)
+<lib_test/decompress_test.{native,byte}>: package(re.str)
+<lib_test/decompress_test.{native,byte}>: package(stringext)
+<lib_test/decompress_test.{native,byte}>: use_decompress
+<lib_test/*.ml{,i,y}>: package(alcotest)
+<lib_test/*.ml{,i,y}>: package(camlzip)
+<lib_test/*.ml{,i,y}>: package(crc)
+<lib_test/*.ml{,i,y}>: package(re.str)
+<lib_test/*.ml{,i,y}>: package(stringext)
+<lib_test/*.ml{,i,y}>: use_decompress
 # OASIS_STOP
 true: annot
 true: safe_string

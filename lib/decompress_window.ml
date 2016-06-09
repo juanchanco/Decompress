@@ -36,12 +36,13 @@ sig
   val available : t -> int
 end
 
-module Make (Atom : ATOM) (Scalar : SCALAR with type elt = Atom.t) : S
-  with type crc = Decompress_adler32.Make(Atom)(Scalar).t
+module Make (Atom : ATOM) (Scalar : SCALAR with type elt = Atom.t)
+(CRC : Decompress_checksum.S with type atom = Atom.t and type buffer = Scalar.t) : S
+  with type crc = CRC.t
    and type atom = Atom.t
    and type buffer = Scalar.t =
 struct
-  module CRC = Decompress_adler32.Make(Atom)(Scalar)
+  (* module CRC = Decompress_adler32.Make(Atom)(Scalar) *)
   module RingBuffer = Decompress_ringbuffer.Make(Atom)(Scalar)
 
   type t =

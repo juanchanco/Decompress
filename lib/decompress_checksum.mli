@@ -23,8 +23,8 @@ sig
   val make : int -> int -> t
 
   val update  : buffer -> int -> int -> t -> t
-  val atom    : atom -> t -> t
-  val combine : t -> t -> int -> t
+  (* val atom    : atom -> t -> t *)
+  (* val combine : t -> t -> int -> t *)
 
   val eq  : t -> t -> bool
   val neq : t -> t -> bool

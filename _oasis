@@ -28,7 +28,7 @@ Flag example
 
 Flag trace
   Description:          Trace all compute of decompress
-  Default:              false
+  Default:              true
 
 Flag camlzip
   Description:          camlzip package
@@ -40,11 +40,12 @@ Flag stub
 
 Library decompress
   Path:                 lib
-  Modules:              Decompress, Decompress_common, Decompress_inflate, Decompress_deflate
+  Modules:              Decompress, Decompress_common, Decompress_inflate, Decompress_deflate, Decompress_gzip, Decompress_gunzip
   InternalModules:      Decompress_huffman, Decompress_tree, Decompress_heap,
                         Decompress_ringbuffer,
-                        Decompress_lz77, Decompress_window, Decompress_adler32, Decompress_tables
+                        Decompress_lz77, Decompress_window, Decompress_adler32, Decompress_tables, Decompress_crc32
   NativeOpt:            -inline 1000
+  BuildDepends:         crc, stringext
 
 Executable ppx_debug
   Path:                 ppx
@@ -68,9 +69,8 @@ Executable dpipe
   Path:                 bin/dpipe
   MainIs:               dpipe.ml
   CompiledObject:       best
-  BuildDepends:         decompress, unix
+  BuildDepends:         decompress, unix,logs,logs.fmt
   NativeOpt:            -inline 100
-  Build$:               flag(example) && flag(unix)
 
 Executable dcpr
   Install:              false

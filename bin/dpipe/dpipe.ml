@@ -5,7 +5,7 @@ exception Deflate_error
 
 module Inflate =
 struct
-  include Inflate.Make(ExtString)(ExtBytes)
+  include Gunzip.Make(ExtString)(ExtBytes)
 
   let string ?(window_bits = 15) document =
     let buffer   = Buffer.create 16 in
@@ -33,7 +33,7 @@ end
 
 module Deflate =
 struct
-  include Deflate.Make(ExtString)(ExtBytes)
+  include Gzip.Make(ExtString)(ExtBytes)
 
   let string ?(window_bits = 15) document =
     let buffer   = Buffer.create 16 in
@@ -81,6 +81,8 @@ let write_output str =
   let _ = Unix.write_substring Unix.stdout str 0 (String.length str) in ()
 
 let () =
+    Logs.(set_level (Some Debug));
+    Logs.set_reporter (Logs_fmt.reporter ());
   if Sys.argv |> Array.length >= 1
   then if Sys.argv |> Array.length >= 2 && Sys.argv.(1) = "-d"
     then Inflate.string (load_input ()) |> write_output
