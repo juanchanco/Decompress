@@ -1,12 +1,13 @@
+type crc = {
+    crc : int32;
+    length : int;
+}
 module Make (Atom : Decompress_checksum.ATOM) (Scalar : Decompress_checksum.SCALAR with type elt = Atom.t) : Decompress_checksum.S
   with type atom = Atom.t
    and type buffer = Scalar.t = struct
     let zero_char = Char.chr 0
     let max_32 = 1 lsl 32
-  type t = {
-      crc : int32;
-      length : int;
-  }
+  type t = crc
   type atom = Atom.t
   type buffer = Scalar.t
   let init () = { crc = Int32.of_int 0; length = 0; }

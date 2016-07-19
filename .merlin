@@ -8,7 +8,7 @@ B _build/bin
 B _build/lib_test
 B _build/ppx
 
-#FLG -ppx './_build/ppx/ppx_debug.byte -debug'
+FLG -ppx './_build/ppx/ppx_debug.byte -debug'
 FLG -safe-string
 
 PKG alcotest re camlzip
